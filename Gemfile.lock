@@ -1,0 +1,14 @@
+PATH
+  remote: .
+  specs:
+    bundler_bash_completion (0.0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler_bash_completion!
