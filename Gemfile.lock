@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    bundler_bash_completion (0.0.2)
+    bundler_bash_completion (0.0.3)
+      bundler (>= 1.0.0)
 
 GEM
   remote: http://rubygems.org/
