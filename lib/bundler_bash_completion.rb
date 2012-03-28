@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'yaml'
+
 class BundlerBashCompletion
 
   TASKS = {
@@ -91,10 +94,14 @@ class BundlerBashCompletion
   
   def bins
     @bins ||= begin
-      require 'bundler'
-      Bundler.setup.specs.map(&:executables).flatten + ['gem']
-    rescue Exception
-      ['gem']
+      gem_paths.map { |path| Dir.glob("#{path}/{bin,exe}/*") }.tap do |paths|
+        paths.flatten!
+        paths.reject! { |path| !File.executable?(path) }
+        paths.map! { |path| File.basename(path) }
+        paths.push('gem')
+        paths.sort!
+        paths.uniq!
+      end
     end
   end
   
@@ -114,8 +121,17 @@ class BundlerBashCompletion
   
   def gems
     @gems ||= begin
-      require 'bundler'
-      Bundler.setup.specs.map(&:name)
+      gems = File.readlines("#{Dir.pwd}/Gemfile.lock").grep(/\(.+\)/).tap do |lines|
+        lines.each do |line|
+          line.gsub!(/\(.+/, '')
+          line.gsub!(/\s+/, '')
+          line.strip!
+        end
+      end.tap do |gems|
+        gems.push('bundler')
+        gems.sort!
+        gems.uniq!
+      end
     rescue Exception
       []
     end
@@ -135,8 +151,30 @@ class BundlerBashCompletion
     command == 'bundle'
   end
   
+  def bundle_path
+    @bundle_path ||= begin
+      require 'yaml'
+      path = YAML.load_file('.bundle/config')['BUNDLE_PATH']
+      path && File.expand_path(path)
+    rescue
+      nil
+    end
+  end
+  
   def completion_step
     @completion_step ||= arguments.size - (completion_word.empty? ? 0 : 1)
+  end
+  
+  def gem_paths
+    @gem_paths ||= begin
+      paths = Gem.path.map do |path|
+        Dir.glob("#{path}/gems/*")
+      end
+      paths << Dir.glob("#{bundle_path}/ruby/*/gems/*")
+      paths.flatten!
+      paths.uniq!
+      paths
+    end
   end
   
   def tasks_completion

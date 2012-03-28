@@ -17,7 +17,7 @@ describe BundlerBashCompletion do
   describe '#bins' do
 
     it 'is installed binaries' do
-      completion.bins.should include('autospec', 'bundler_bash_completion', 'gem', 'ldiff', 'rake', 'rspec')
+      completion.bins.should include('autospec', 'gem', 'ldiff', 'rake', 'rspec')
       completion.bins.should_not include('rails')
     end
     
