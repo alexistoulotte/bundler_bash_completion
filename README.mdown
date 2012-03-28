@@ -1,3 +1,19 @@
 # Bundler bash completion
 
-TODO
+Provides `bash` completion for [`bundle`](http://gembundler.com/) command.
+
+## Description
+
+This will complete for all bundler commands (`install`, `outdated`, `show`,
+etc.). Completion is also made for installed gems and their binaries (for
+`bundle update`, `bundle exec`, etc.).
+
+## Installation
+
+First, install gem:
+
+    gem install bundler_bash_completion
+
+Then, add following line to your `~/.bashrc` file.
+
+    complete -C bundler_bash_completion -o default bundle
