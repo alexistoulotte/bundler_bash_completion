@@ -14,6 +14,6 @@ First, install gem:
 
     gem install bundler_bash_completion
 
-Then, add following line to your `~/.bashrc` file.
+Then, add following line to your `~/.bashrc` file:
 
     complete -C /path/to/complete_bundle_bash_command -o default bundle
