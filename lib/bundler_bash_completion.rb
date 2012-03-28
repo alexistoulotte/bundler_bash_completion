@@ -1,21 +1,83 @@
 class BundlerBashCompletion
-  
-  TASKS = %w(
-    check
-    config
-    console
-    exec
-    gem
-    help
-    init
-    install
-    list
-    open
-    outdated
-    package
-    show
-    update
-  ).freeze
+
+  TASKS = {
+    'check' => {
+      '--gemfile' => :block,
+      '--no-color' => :continue,
+      '--path' => :block,
+    },
+    'clean' => {
+      '--force' => :continue,
+      '--no-color' => :continue,
+      '--verbose' => :continue,
+    },
+    'config' => {},
+    'console' => {},
+    'exec' => {
+      :bin => :continue,
+    },
+    'gem' => {
+      '--bin' => :block,
+    },
+    'help' => {
+      :task => :continue,
+    },
+    'init' => {
+      '--no-color' => :continue,
+      '--verbose' => :continue,
+    },
+    'install' => {
+      '--binstubs' => :continue,
+      '--deployment' => :continue,
+      '--gemfile' => :block,
+      '--local' => :continue,
+      '--no-color' => :continue,
+      '--path' => :block,
+      '--shebang' => :block,
+      '--standalone' => :block,
+      '--system' => :continue,
+      '--verbose' => :continue,
+      '--without' => :block,
+    },
+    'list' => {
+      '--no-color' => :continue,
+      '--paths' => :continue,
+      '--verbose' => :continue,
+      :gem => :continue,
+    },
+    'open' => {
+      :gem => :continue,
+    },
+    'outdated' => {
+      '--local' => :continue,
+      '--no-color' => :continue,
+      '--pre' => :continue,
+      '--source' => :block,
+      '--verbose' => :continue,
+      :gem => :continue,
+    },
+    'package' => {},
+    'show' => {
+      '--no-color' => :continue,
+      '--paths' => :continue,
+      '--verbose' => :continue,
+      :gem => :continue,
+    },
+    'update' => {
+      '--no-color' => :continue,
+      '--source' => :block,
+      '--verbose' => :continue,
+      :gems => :continue,
+    },
+    'viz' => {
+      '--file' => :block,
+      '--format' => :block,
+      '--no-color' => :continue,
+      '--requirements' => :block,
+      '--verbose' => :continue,
+      '--version' => :block,
+    },
+  }
   
   attr_reader :line
 
@@ -27,39 +89,87 @@ class BundlerBashCompletion
     @arguments ||= line.split(/\s+/)
   end
   
+  def bins
+    @bins ||= begin
+      require 'bundler'
+      Bundler.setup.specs.map(&:executables).flatten + ['gem']
+    rescue Exception
+      ['gem']
+    end
+  end
+  
   def command
     arguments.first.to_s
   end
   
+  def completion_word
+    @completion_word ||= (line =~ /\s+$/) ? '' : arguments.last
+  end
+  
   def complete
-    return tasks if task_completion?
+    return tasks_completion if tasks_completion?
+    return task_options_completion if task_options_completion?
     []
+  end
+  
+  def gems
+    @gems ||= begin
+      require 'bundler'
+      Bundler.setup.specs.map(&:name)
+    rescue Exception
+      []
+    end
+  end
+  
+  def task
+    @task ||= (completion_step > 1) ? arguments[1].to_s : ''
+  end
+    
+  def task_options
+    @task_options ||= (completion_step > 2) ? arguments[2..(completion_step - 1)] : []
   end
   
   private
   
-  def available?
-    command == 'bundle' && completion_step > 0
+  def bundle_command?
+    command == 'bundle'
   end
   
   def completion_step
-    @completion_step ||= arguments.size - 1 + (line =~ /\s+$/ ? 1 : 0)
+    @completion_step ||= arguments.size - (completion_word.empty? ? 0 : 1)
   end
   
-  def completion_step?(step)
-    completion_step == step
+  def tasks_completion
+    TASKS.keys.select { |t| t.start_with?(completion_word) }
   end
   
-  def task
-    @task ||= arguments[1].to_s
+  def tasks_completion?
+    bundle_command? && completion_step == 1
   end
   
-  def task_completion?
-    available? && completion_step?(1)
+  def task_options_completion
+    options = TASKS[task] || {}
+    return [] if options[task_options.last] == :block
+    completion = options.keys.map do |key|
+      if key == :task
+        (task_options & TASKS.keys).empty? ? TASKS.keys : nil
+      elsif key == :gem
+        (task_options & gems).empty? ? gems : nil
+      elsif key == :gems
+        gems - task_options
+      elsif key == :bin
+        (task_options & bins).empty? ? bins : nil
+      else
+        key
+      end
+    end
+    completion.flatten!
+    completion.compact!
+    completion.select { |c| c.start_with?(completion_word) }
   end
   
-  def tasks
-    TASKS.select { |t| t.start_with?(task) }
+  def task_options_completion?
+    bundle_command? && completion_step > 1 && TASKS.key?(task)
   end
   
 end
