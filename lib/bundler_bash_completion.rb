@@ -81,17 +81,17 @@ class BundlerBashCompletion
       '--version' => :block,
     },
   }
-  
+
   attr_reader :line
 
   def initialize(line)
     @line = line.to_s.gsub(/^\s+/, '').freeze
   end
-  
+
   def arguments
     @arguments ||= line.split(/\s+/)
   end
-  
+
   def bins
     @bins ||= begin
       gem_paths.map { |path| Dir.glob("#{path}/{bin,exe}/*") }.tap do |paths|
@@ -104,21 +104,21 @@ class BundlerBashCompletion
       end
     end
   end
-  
+
   def command
     arguments.first.to_s
   end
-  
+
   def completion_word
     @completion_word ||= (line =~ /\s+$/) ? '' : arguments.last
   end
-  
+
   def complete
     return tasks_completion if tasks_completion?
     return task_options_completion if task_options_completion?
     []
   end
-  
+
   def gems
     @gems ||= begin
       gems = File.readlines("#{Dir.pwd}/Gemfile.lock").grep(/\(.+\)/).tap do |lines|
@@ -136,21 +136,21 @@ class BundlerBashCompletion
       []
     end
   end
-  
+
   def task
     @task ||= (completion_step > 1) ? arguments[1].to_s : ''
   end
-    
+
   def task_options
     @task_options ||= (completion_step > 2) ? arguments[2..(completion_step - 1)] : []
   end
-  
+
   private
-  
+
   def bundle_command?
     command == 'bundle'
   end
-  
+
   def bundle_path
     @bundle_path ||= begin
       require 'yaml'
@@ -160,11 +160,11 @@ class BundlerBashCompletion
       nil
     end
   end
-  
+
   def completion_step
     @completion_step ||= arguments.size - (completion_word.empty? ? 0 : 1)
   end
-  
+
   def gem_paths
     @gem_paths ||= begin
       paths = Gem.path.map do |path|
@@ -176,15 +176,15 @@ class BundlerBashCompletion
       paths
     end
   end
-  
+
   def tasks_completion
     TASKS.keys.select { |t| t.start_with?(completion_word) }
   end
-  
+
   def tasks_completion?
     bundle_command? && completion_step == 1
   end
-  
+
   def task_options_completion
     options = TASKS[task] || {}
     return [] if options[task_options.last] == :block
@@ -205,9 +205,9 @@ class BundlerBashCompletion
     completion.compact!
     completion.select { |c| c.start_with?(completion_word) }
   end
-  
+
   def task_options_completion?
     bundle_command? && completion_step > 1 && TASKS.key?(task)
   end
-  
+
 end
