@@ -192,11 +192,11 @@ class BundlerBashCompletion
       if key == :task
         (task_options & TASKS.keys).empty? ? TASKS.keys : nil
       elsif key == :gem
-        (task_options & gems).empty? ? gems : nil
+        task_options.empty? ? gems : nil
       elsif key == :gems
         gems - task_options
       elsif key == :bin
-        (task_options & bins).empty? ? bins : nil
+        task_options.empty? ? bins : nil
       else
         key
       end

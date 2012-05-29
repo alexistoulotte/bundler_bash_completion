@@ -170,6 +170,14 @@ describe BundlerBashCompletion do
 
     end
 
+    context 'with "bundle show foo "' do
+
+      it 'is "--paths", "--no-color" and "--verbose"' do
+        completion('bundle show foo ').complete.should == ['--no-color', '--paths', '--verbose']
+      end
+
+    end
+
     context 'with "bundle update "' do
 
       it 'is gems and "--verbose", etc.' do
@@ -204,6 +212,14 @@ describe BundlerBashCompletion do
 
       it 'is an empty array' do
         completion('bundle exec rake ').complete.should == []
+      end
+
+    end
+
+    context 'with "bundle exec foo "' do
+
+      it 'is an empty array' do
+        completion('bundle exec foo ').complete.should == []
       end
 
     end
