@@ -98,7 +98,7 @@ class BundlerBashCompletion
         paths.flatten!
         paths.reject! { |path| !File.executable?(path) }
         paths.map! { |path| File.basename(path) }
-        paths.push('gem')
+        paths.push('gem', 'ruby')
         paths.sort!
         paths.uniq!
       end

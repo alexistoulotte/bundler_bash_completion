@@ -21,6 +21,10 @@ describe BundlerBashCompletion do
       completion.bins.should_not include('rails')
     end
 
+    it 'includes ruby' do
+      completion.bins.should include('ruby')
+    end
+
   end
 
   describe '#command' do
@@ -188,6 +192,10 @@ describe BundlerBashCompletion do
       it 'is bins' do
         completion('bundle exec ').complete.should include('ldiff', 'rake', 'rspec')
         completion('bundle exec ').complete.should_not include('--verbose')
+      end
+
+      it 'includes gem & ruby commands' do
+        completion('bundle exec ').complete.should include('gem', 'ruby')
       end
 
     end
