@@ -60,6 +60,7 @@ class BundlerBashCompletion
       :gem => :continue,
     },
     'package' => {},
+    'platform' => {},
     'show' => {
       '--no-color' => :continue,
       '--paths' => :continue,
