@@ -208,18 +208,26 @@ describe BundlerBashCompletion do
 
     end
 
-    context 'with "bundle exec rake "' do
-
-      it 'is an empty array' do
-        completion('bundle exec rake ').complete.should == []
-      end
-
-    end
-
     context 'with "bundle exec foo "' do
 
       it 'is an empty array' do
         completion('bundle exec foo ').complete.should == []
+      end
+
+    end
+
+    context 'with "bundle exec rake "' do
+
+      it 'is rake tasks' do
+        completion('bundle exec rake ').complete.should include('release', 'spec', 'build')
+      end
+
+    end
+
+    context 'with "bundle exec rake re"' do
+
+      it 'is ["release"]' do
+        completion('bundle exec rake re').complete.should == ['release']
       end
 
     end
@@ -270,6 +278,14 @@ describe BundlerBashCompletion do
 
     it 'last whitespaces are preserved' do
       completion('hello ').line.should == 'hello '
+    end
+
+  end
+
+  describe '#rake_tasks' do
+
+    it 'returns rake tasks' do
+      completion.rake_tasks.should include('default', 'install', 'build')
     end
 
   end
