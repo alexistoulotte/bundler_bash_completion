@@ -114,7 +114,6 @@ class BundlerBashCompletion
   end
 
   def complete
-    return rake_tasks_completion if rake_tasks_completion?
     return task_options_completion if task_options_completion?
     return tasks_completion if tasks_completion?
     []
@@ -136,12 +135,6 @@ class BundlerBashCompletion
     rescue Exception
       []
     end
-  end
-
-  def rake_tasks
-    @rake_tasks ||= `bundle exec rake -T`.split("\n").map { |line| line[/^rake (.+)\s+# /, 1].strip }
-  rescue
-    []
   end
 
   def task
@@ -182,14 +175,6 @@ class BundlerBashCompletion
       paths.uniq!
       paths
     end
-  end
-
-  def rake_tasks_completion
-    rake_tasks.select { |t| t.start_with?(completion_word) }
-  end
-
-  def rake_tasks_completion?
-    bundle_command? && completion_step == 3 && task == 'exec' && task_options == ['rake']
   end
 
   def tasks_completion
