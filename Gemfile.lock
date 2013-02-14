@@ -4,7 +4,7 @@ PATH
     bundler_bash_completion (0.2.2)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     columnize (0.3.6)
     debugger (1.2.2)
