@@ -17,4 +17,4 @@ First, install gem:
 
 Then, add following line to your `~/.bashrc` file:
 
-    complete -C /path/to/complete_bundle_bash_command -o default bundle
+    eval `complete_bundle_bash_command init`
