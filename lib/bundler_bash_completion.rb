@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'yaml'
 
 class BundlerBashCompletion
 
@@ -83,6 +82,8 @@ class BundlerBashCompletion
     },
   }
 
+  CONFIG_PATH = '.bundle/config'
+
   attr_reader :line
 
   def initialize(line)
@@ -154,9 +155,11 @@ class BundlerBashCompletion
 
   def bundle_path
     @bundle_path ||= begin
-      require 'yaml'
-      path = YAML.load_file('.bundle/config')['BUNDLE_PATH']
-      path && File.expand_path(path)
+      if File.exists?(CONFIG_PATH)
+        require 'yaml'
+        path = YAML.load_file(CONFIG_PATH)['BUNDLE_PATH']
+        path && File.expand_path(path)
+      end
     rescue
       nil
     end
