@@ -6,8 +6,7 @@ Provides `bash` completion for [`bundle`](http://gembundler.com/) command.
 
 This will complete for all bundler commands (`install`, `outdated`, `show`,
 etc.). Completion is also made for installed gems and their binaries (for
-`bundle update`, `bundle exec`, etc.). [Rake](http://rake.rubyforge.org/)
-tasks are also completed.
+`bundle update`, `bundle exec`, etc.).
 
 ## Installation
 
