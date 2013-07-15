@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/alexistoulotte/bundler_bash_completion'
   s.summary = 'Bundler bash completion'
   s.description = 'Provides bash completion for bundle command'
+  s.license = 'MIT'
 
   s.rubyforge_project = 'bundler_bash_completion'
 
@@ -15,7 +16,6 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_development_dependency 'debugger', '~> 1.6.0'
-  s.add_development_dependency 'rake', '~> 10.0.0'
-  s.add_development_dependency 'rspec', '~> 2.13.0'
+  s.add_development_dependency 'rake', '~> 10.1.0'
+  s.add_development_dependency 'rspec', '~> 2.14.0'
 end
