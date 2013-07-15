@@ -3,7 +3,6 @@
 if ARGV[0] == 'init'
   puts "complete -C #{File.expand_path(__FILE__)} -o default bundle"
 else
-  require File.expand_path(File.dirname(__FILE__) + '/../lib/bundler_bash_completion')
-
+  require File.expand_path("#{__dir__}/../lib/bundler_bash_completion")
   puts BundlerBashCompletion.new(ENV['COMP_LINE']).complete.sort.join("\n")
 end
