@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'bundler_bash_completion'
-  s.version = File.read("#{__dir__}/VERSION")).strip
+  s.version = File.read("#{File.dirname(__FILE__)}/VERSION").strip
   s.platform = Gem::Platform::RUBY
   s.author = 'Alexis Toulotte'
   s.email = 'al@alweb.org'
