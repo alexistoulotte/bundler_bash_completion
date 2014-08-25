@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_development_dependency 'byebug', '~> 3.1.0'
-  s.add_development_dependency 'rake', '~> 10.3.0'
-  s.add_development_dependency 'rspec', '~> 3.0.0'
+  s.add_development_dependency 'byebug', '>= 3.2.0', '< 3.3.0'
+  s.add_development_dependency 'rake', '>= 10.3.0', '< 10.4.0'
+  s.add_development_dependency 'rspec', '>= 3.0.0', '< 3.1.0'
 end
