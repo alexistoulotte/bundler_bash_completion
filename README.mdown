@@ -12,8 +12,12 @@ etc.). Completion is also made for installed gems and their binaries (for
 
 First, install gem:
 
-    gem install bundler_bash_completion
+```ruby
+gem install bundler_bash_completion
+```
 
 Then, add following line to your `~/.bashrc` file:
 
-    eval `complete_bundle_bash_command init`
+```ruby
+eval `complete_bundle_bash_command init`
+```
