@@ -18,6 +18,6 @@ gem install bundler_bash_completion
 
 Then, add following line to your `~/.bashrc` file:
 
-```ruby
+```sh
 eval `complete_bundle_bash_command init`
 ```
