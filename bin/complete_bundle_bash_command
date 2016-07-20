@@ -1,8 +1,13 @@
 #!/usr/bin/env ruby
 
 if ARGV[0] == 'init'
-  puts "complete -C #{File.expand_path(__FILE__)} -o default bundle"
-else
+  puts %Q{
+_bundler_bash_completion() {
+  COMPREPLY=($(compgen -W "$(#{File.expand_path(__FILE__)} complete "$COMP_LINE")"))
+}
+complete -F _bundler_bash_completion bundle
+}
+elsif ARGV[0] == 'complete' && ARGV.size == 2
   require File.expand_path("#{__dir__}/../lib/bundler_bash_completion")
-  puts BundlerBashCompletion.new(ENV['COMP_LINE']).complete.sort.join("\n")
+  puts BundlerBashCompletion.new(ARGV[1]).complete.sort.join("\n")
 end
