@@ -3,7 +3,12 @@
 if ARGV[0] == 'init'
   puts %Q{
 _bundler_bash_completion() {
-  COMPREPLY=($(compgen -W "$(#{File.expand_path(__FILE__)} complete "$COMP_LINE")"))
+  completion="$(#{File.expand_path(__FILE__)} complete "$COMP_LINE")"
+  if [ -z "$completion" ]; then
+    COMPREPLY=($(compgen -f -- "${COMP_WORDS[${COMP_CWORD}]}"))
+  else
+    COMPREPLY=($(compgen -W "$completion"))
+  fi
 }
 complete -F _bundler_bash_completion bundle
 }
