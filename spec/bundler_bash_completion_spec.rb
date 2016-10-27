@@ -171,7 +171,7 @@ describe BundlerBashCompletion do
 
       subject { completion('bundle show rspec ').complete }
 
-      it { should eq(['--no-color', '--paths', '--verbose']) }
+      it { should eq(['--no-color', '--no-no-color', '--no-outdated', '--no-paths', '--no-verbose', '--outdated', '--paths', '--retry', '--verbose']) }
 
     end
 
@@ -179,7 +179,7 @@ describe BundlerBashCompletion do
 
       subject { completion('bundle show foo ').complete }
 
-      it { should eq(['--no-color', '--paths', '--verbose']) }
+      it { should eq(['--no-color', '--no-no-color', '--no-outdated', '--no-paths', '--no-verbose', '--outdated', '--paths', '--retry', '--verbose']) }
 
     end
 
