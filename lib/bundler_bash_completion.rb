@@ -4,13 +4,22 @@ class BundlerBashCompletion
 
   TASKS = {
     'check' => {
+      '--dry-run' => :continue,
       '--gemfile' => :block,
       '--no-color' => :continue,
+      '--no-no-color' => :continue,
+      '--no-verbose' => :continue,
       '--path' => :block,
+      '--retry' => :block,
+      '--verbose' => :continue,
     },
     'clean' => {
+      '--dry-run' => :continue,
       '--force' => :continue,
       '--no-color' => :continue,
+      '--no-no-color' => :continue,
+      '--no-verbose' => :continue,
+      '--retry' => :block,
       '--verbose' => :continue,
     },
     'config' => {},
