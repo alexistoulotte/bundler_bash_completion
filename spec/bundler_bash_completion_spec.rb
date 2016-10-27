@@ -151,6 +151,14 @@ describe BundlerBashCompletion do
 
     end
 
+    context 'with "bundle lock "' do
+
+      subject { completion('bundle lock ').complete }
+
+      it { should include('--update', '--verbose') }
+
+    end
+
     context 'with "bundle show "' do
 
       subject { completion('bundle show ').complete }

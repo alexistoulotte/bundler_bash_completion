@@ -47,6 +47,18 @@ class BundlerBashCompletion
       '--verbose' => :continue,
       :gem => :continue,
     },
+    'lock' => {
+      '--full-index' => :continue,
+      '--local' => :continue,
+      '--lockfile' => :block,
+      '--no-color' => :continue,
+      '--no-no-color' => :continue,
+      '--no-verbose' => :continue,
+      '--print' => :continue,
+      '--retry' => :block,
+      '--update' => :continue,
+      '--verbose' => :continue,
+    },
     'open' => {
       :gem => :continue,
     },
