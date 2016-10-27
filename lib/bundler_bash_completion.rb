@@ -23,7 +23,12 @@ class BundlerBashCompletion
       '--verbose' => :continue,
     },
     'config' => {},
-    'console' => {},
+    'console' => {
+      '--no-color' => :continue,
+      '--no-no-color' => :continue,
+      '--retry' => :block,
+      '--verbose' => :continue,
+    },
     'exec' => {
       :bin => :continue,
     },
