@@ -133,7 +133,6 @@ class BundlerBashCompletion
       '--no-requirements' => :continue,
       '--no-verbose' => :continue,
       '--no-version' => :continue,
-      '--requirements' => :block,
       '--requirements' => :continue,
       '--retry' => :block,
       '--verbose' => :continue,
