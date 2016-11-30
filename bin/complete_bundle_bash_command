@@ -14,5 +14,6 @@ complete -F _bundler_bash_completion bundle
 }
 elsif ARGV[0] == 'complete' && ARGV.size == 2
   require File.expand_path("#{__dir__}/../lib/bundler_bash_completion")
-  puts BundlerBashCompletion.new(ARGV[1]).complete.sort.join("\n")
+  completion = BundlerBashCompletion.new(ARGV[1]).complete
+  puts completion.sort.join("\n") if completion.any?
 end
