@@ -9,8 +9,6 @@ Gem::Specification.new do |s|
   s.description = 'Provides bash completion for bundle command'
   s.license = 'MIT'
 
-  s.rubyforge_project = 'bundler_bash_completion'
-
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
