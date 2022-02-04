@@ -117,9 +117,11 @@ class BundlerBashCompletion
       :gem => :continue,
     },
     'update' => {
+      '--bundler' => :block,
       '--no-color' => :continue,
       '--no-no-color' => :continue,
       '--no-verbose' => :continue,
+      '--quiet' => :continue,
       '--retry' => :block,
       '--source' => :block,
       '--verbose' => :continue,
