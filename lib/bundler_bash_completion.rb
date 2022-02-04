@@ -31,13 +31,13 @@ class BundlerBashCompletion
       '--verbose' => :continue,
     },
     'exec' => {
-      :bin => :continue,
+      bin: :continue,
     },
     'gem' => {
       '--bin' => :block,
     },
     'help' => {
-      :task => :continue,
+      task: :continue,
     },
     'init' => {
       '--no-color' => :continue,
@@ -87,7 +87,7 @@ class BundlerBashCompletion
       '--verbose' => :continue,
     },
     'open' => {
-      :gem => :continue,
+      gem: :continue,
     },
     'outdated' => {
       '--local' => :continue,
@@ -139,9 +139,9 @@ class BundlerBashCompletion
       '--version' => :continue,
       '--without' => :block,
     },
-  }
+  }.freeze
 
-  CONFIG_PATH = '.bundle/config'
+  CONFIG_PATH = '.bundle/config'.freeze
 
   attr_reader :line
 
@@ -157,7 +157,7 @@ class BundlerBashCompletion
     @bins ||= begin
       gem_paths.map { |path| Dir.glob("#{path}/{bin,exe}/*") }.tap do |paths|
         paths.flatten!
-        paths.reject! { |path| !File.executable?(path) }
+        paths.select! { |path| File.executable?(path) }
         paths.map! { |path| File.basename(path) }
         paths.push('gem', 'ruby')
         paths.sort!
@@ -171,7 +171,7 @@ class BundlerBashCompletion
   end
 
   def completion_word
-    @completion_word ||= (line =~ /\s+$/) ? '' : arguments.last
+    @completion_word ||= line =~ /\s+$/ ? '' : arguments.last
   end
 
   def complete
@@ -182,7 +182,7 @@ class BundlerBashCompletion
 
   def gems
     @gems ||= begin
-      gems = File.readlines("#{Dir.pwd}/Gemfile.lock").grep(/\(.+\)/).tap do |lines|
+      File.readlines("#{Dir.pwd}/Gemfile.lock").grep(/\(.+\)/).tap do |lines|
         lines.each do |line|
           line.gsub!(/\(.+/, '')
           line.gsub!(/\s+/, '')
@@ -193,17 +193,17 @@ class BundlerBashCompletion
         gems.sort!
         gems.uniq!
       end
-    rescue Exception
+    rescue
       []
     end
   end
 
   def task
-    @task ||= (completion_step > 1) ? arguments[1].to_s : ''
+    @task ||= completion_step > 1 ? arguments[1].to_s : ''
   end
 
   def task_options
-    @task_options ||= (completion_step > 2) ? arguments[2..(completion_step - 1)] : []
+    @task_options ||= completion_step > 2 ? arguments[2..(completion_step - 1)] : []
   end
 
   private
@@ -214,7 +214,7 @@ class BundlerBashCompletion
 
   def bundle_path
     @bundle_path ||= begin
-      if File.exists?(CONFIG_PATH)
+      if File.exist?(CONFIG_PATH)
         require 'yaml'
         path = YAML.load_file(CONFIG_PATH)['BUNDLE_PATH']
         path && File.expand_path(path)
@@ -252,13 +252,14 @@ class BundlerBashCompletion
     options = TASKS[task] || {}
     return [] if options[task_options.last] == :block
     completion = options.keys.map do |key|
-      if key == :task
+      case key
+      when :task
         (task_options & TASKS.keys).empty? ? TASKS.keys : nil
-      elsif key == :gem
+      when :gem
         task_options.empty? ? gems : nil
-      elsif key == :gems
+      when :gems
         gems - task_options
-      elsif key == :bin
+      when :bin
         task_options.empty? ? bins : nil
       else
         key

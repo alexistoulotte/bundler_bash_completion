@@ -10,7 +10,7 @@ describe BundlerBashCompletion do
 
     subject { completion('bundle exec   rails s').arguments }
 
-    it { should eq(['bundle', 'exec', 'rails', 's']) }
+    it { should eq(%w(bundle exec rails s)) }
 
   end
 
@@ -75,7 +75,7 @@ describe BundlerBashCompletion do
 
       subject { completion('bundle in').complete }
 
-      it { should eq(['init', 'install']) }
+      it { should eq(%w(init install)) }
 
     end
 
@@ -115,7 +115,7 @@ describe BundlerBashCompletion do
 
       subject { completion('bundle install --p').complete }
 
-      it { should eq(['--path'])  }
+      it { should eq(['--path']) }
 
     end
 
@@ -139,7 +139,7 @@ describe BundlerBashCompletion do
 
       subject { completion('bundle help in').complete }
 
-      it { should eq(['init', 'install']) }
+      it { should eq(%w(init install)) }
 
     end
 
@@ -147,7 +147,7 @@ describe BundlerBashCompletion do
 
       subject { completion('bundle help install ').complete }
 
-      it { should eq([])  }
+      it { should eq([]) }
 
     end
 
